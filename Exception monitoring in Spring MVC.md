@@ -87,16 +87,12 @@ compile('com.rollbar:rollbar-web:1.0.0-beta-3')
 ```java
 @Override
 public String buildLogMessage(Exception e, HttpServletRequest req) {
-    RequestProvider requestProvider = new RequestProvider
-       .Builder().userIpHeaderName(req.getRemoteAddr())
-       .build();
 
-    rollbar = Rollbar.init(withAccessToken(accessToken)
-        .request(requestProvider)
-	      .build());
-        rollbar.error(e);
-    
-    return "MVC exception: " + e.getLocalizedMessage();
+    RequestProvider requestProvider = new RequestProvider.Builder().userIpHeaderName(req.getRemoteAddr()).build();
+    rollbar = Rollbar.init(withAccessToken(accessToken).request(requestProvider).build());
+    rollbar.error(e);
+
+return "MVC exception: " + e.getLocalizedMessage();
 }
 ```
 You can also use Rollbar to track caught exceptions, warnings, and other items using the same rollbar object. Learn more about the full API in our [documentation](https://rollbar.com/docs/notifier/rollbar-java/). 
