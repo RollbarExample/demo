@@ -39,9 +39,9 @@ public class MyMappingExceptionResolver extends SimpleMappingExceptionResolver {
 	  }
 	    
 	  @Override
-    protected ModelAndView doResolveException(HttpServletRequest req,HttpServletResponse resp, Object handler, Exception ex) {
-	    
-      ModelAndView mav = super.doResolveException(req, resp, handler, ex);     
+    protected ModelAndView doResolveException(HttpServletRequest req,
+      HttpServletResponse resp, Object handler, Exception ex) {
+      ModelAndView mav = super.doResolveException(req, resp, handler, ex);
 	    mav.addObject("url", req.getRequestURL());
 	    return mav;
     }
@@ -49,7 +49,8 @@ public class MyMappingExceptionResolver extends SimpleMappingExceptionResolver {
 ```
 In order to make use of this class, you must configure it in your bean configuration file. We also map in a default error page called "error" and pass in the exception attribute, which will give our view access to the exception object for reporting.
 ```xml
-<bean id="simpleMappingExceptionResolver" class="com.in28minutes.controller.MyMappingExceptionResolver">
+<bean id="simpleMappingExceptionResolver" 
+  class="com.in28minutes.controller.MyMappingExceptionResolver">
     <property name="exceptionMappings">
    		 <props>
    			 <prop key="java.lang.Exception">error</prop>
