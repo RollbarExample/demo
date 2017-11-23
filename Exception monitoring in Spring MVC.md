@@ -90,16 +90,15 @@ For Gradle:
 ```java
 @Override
 public String buildLogMessage(Exception e, HttpServletRequest req) {
-
     RequestProvider requestProvider = new RequestProvider
-        .Builder().userIpHeaderName(req.getRemoteAddr())
-        .build();
+       .Builder().userIpHeaderName(req.getRemoteAddr())
+       .build();
 
     rollbar = Rollbar.init(withAccessToken(accessToken)
         .request(requestProvider)
-	    .build());
-    rollbar.error(e);
-
+	      .build());
+        rollbar.error(e);
+    
     return "MVC exception: " + e.getLocalizedMessage();
 }
 ```
@@ -113,17 +112,11 @@ To test that it’s working, let’s create a page that will generate an error m
 
 This form add a button which will call /spring-mvc/createException.
 
-<table>
-  <tr>
-    <td><form action="/spring-mvc/createException" method="POST">
+<form action="/spring-mvc/createException" method="POST">
     <center>
         <input style="height:50px;width:200px" type="submit"  value="Throw an error" />
     </center>
-</form>     	 
-</td>
-  </tr>
-</table>
-
+</form>
 
 When you click the "Throw an exception" button, it will trigger the throwException method. In this method, we have added a bug which attempts to call a method on a null object.
 ```java
@@ -133,7 +126,6 @@ public String throwException(ModelMap model) {
     System.out.println("Error : here....");
     String exception = null;
     exception.toCharArray();
-   	 
     return "error";
 }
 ```
