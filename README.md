@@ -5,9 +5,9 @@ If you are new to Rollbar, it helps you monitor errors in real-world application
 
 While Rollbar’s notifier works with any Java application, we’re going to show you how to set it up with Spring and how to try it out yourself with a working example app.
 
-### Create a global exception handler
+## Create a global exception handler
 To track all of our exceptions in Spring, we’ll be making use of a global exception handler. This receives uncaught exceptions for your whole application, not just an individual controller. Spring offers two main approaches:
-1.ControllerAdvice
+####1.ControllerAdvice
 When you create a class annotated with <a href="https://spring.io/blog/2013/11/01/exception-handling-in-spring-mvc">@ControllerAdvice</a>, it will handle exceptions created by all your controllers. Each controller advice defines a method with a @ExceptionHandler annotation which becomes the default handler. You can insert your custom code to print or track errors there.
 ControllerAdvice is only available in Spring 3.2 and above. We won’t be covering this approach in detail but you can see our working <a href="https://github.com/RollbarExample/Rollbar-Java-Example/blob/master/src/main/java/com/in28minutes/controller/GlobalExceptionHandlerController.java">example on GitHub</a>. You will need to uncomment the annotation at the top to run it.
    
