@@ -25,8 +25,8 @@ Spring Framework also provides a HandlerExceptionResolver interface that you can
 The example below shows you how to override the SimpleMappingExceptionResolver. It allows you to create a custom method to build a log message and to return a view to the user with a more friendly error page. If you want to run this example yourself, check out [Rollbar-Example-Java](https://github.com/RollbarExample/Rollbar-Java-Example) on GitHub.
 ```java
 public class MyMappingExceptionResolver extends SimpleMappingExceptionResolver {
-	String accessToken = "8e194f5f31db4ff1b4e3e0951a40c936";
-	Rollbar rollbar;
+    String accessToken = "8e194f5f31db4ff1b4e3e0951a40c936";
+    Rollbar rollbar;
 
 	public MyMappingExceptionResolver() {
 
