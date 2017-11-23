@@ -49,8 +49,7 @@ The example below shows you how to override the SimpleMappingExceptionResolver. 
 ```
 In order to make use of this class, you must configure it in your bean configuration file. We also map in a default error page called "error" and pass in the exception attribute, which will give our view access to the exception object for reporting.
 ```xml
-<bean id="simpleMappingExceptionResolver" 
-  class="com.in28minutes.controller.MyMappingExceptionResolver">
+<bean id="simpleMappingExceptionResolver" class="com.in28minutes.controller.MyMappingExceptionResolver">
     <property name="exceptionMappings">
    		 <props>
    			 <prop key="java.lang.Exception">error</prop>
