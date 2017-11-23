@@ -1,4 +1,4 @@
-Exception monitoring in Spring MVC
+# Exception monitoring in Spring MVC
 
 The [Spring Famework](https://spring.io/) is the most popular framework for Java according to [hotframeworks.com](http://hotframeworks.com/languages/java). It provides a model view controller (MVC) architecture and readily available components to develop flexible and loosely coupled web applications. 
 
@@ -39,32 +39,25 @@ public class MyMappingExceptionResolver extends SimpleMappingExceptionResolver {
 	}
 	    
 	 @Override
-	protected ModelAndView doResolveException(HttpServletRequest req,
+	protected ModelAndView doResolveException(HttpServletRequest req,HttpServletResponse resp, Object handler, Exception ex) {
 	    
-                HttpServletResponse resp, Object handler, Exception ex) {
-	    ModelAndView mav = super.doResolveException(req, resp, handler, ex);     
+      ModelAndView mav = super.doResolveException(req, resp, handler, ex);     
 	    mav.addObject("url", req.getRequestURL());
-    
 	    return mav;
     }
-}
+  }
 ```
 In order to make use of this class, you must configure it in your bean configuration file. We also map in a default error page called "error" and pass in the exception attribute, which will give our view access to the exception object for reporting.
 
-<table>
-  <tr>
-    <td><bean id="simpleMappingExceptionResolver"     class="com.in28minutes.controller.MyMappingExceptionResolver">
-   	 <property name="exceptionMappings">
+<bean id="simpleMappingExceptionResolver" class="com.in28minutes.controller.MyMappingExceptionResolver">
+    <property name="exceptionMappings">
    		 <props>
    			 <prop key="java.lang.Exception">error</prop>
    		 </props>
-   	 </property>
-   	 <property name="defaultErrorView" value="error" />
-   	 <property name="exceptionAttribute" value="ex" />
-    </bean></td>
-  </tr>
-</table>
-
+   	</property>
+   	<property name="defaultErrorView" value="error" />
+   	<property name="exceptionAttribute" value="ex" />
+</bean>
 
 ## Add Rollbar error monitoring
 
@@ -73,24 +66,15 @@ Now that we have a simple exception handler wired up, we’re going to show you 
 1. Visit [https://rollbar.com](https://rollbar.com) and sign up for an account if you haven’t done so yet. Next, create your project and select Java  from the list of notifiers. Select the server side access token that is generated for you. You’ll need this to configure Rollbar in the steps below.
 
 2. Add a dependency for the rollbar-web notifier in your chosen package management system. For Maven, add the dependency below in your pom.xml file:
-
-	
-
-<table>
-  <tr>
-    <td><dependencies>
-            <dependency>
-                <groupId>com.rollbar</groupId>
-                <artifactId>rollbar-web</artifactId>
-                <version>1.0.0-beta-3</version>
-            </dependency>
+```xml
+<dependencies>
+    <dependency>
+        <groupId>com.rollbar</groupId>
+            <artifactId>rollbar-web</artifactId>
+            <version>1.0.0-beta-3</version>
+    </dependency>
 </dependencies>
-</td>
-  </tr>
-</table>
-
-
-          
+```
 
 For Gradle:
 
@@ -103,11 +87,8 @@ For Gradle:
 
 3. Now we will add Rollbar tracking inside the MyMappingExceptionResolver that we created earlier. It should go in the buildLogMessage method. Add the access token that we got in step one. We are also passing in the request provider object so we have more context for debugging problems later.
 
-	
-
-<table>
-  <tr>
-    <td>@Override
+```java
+@Override
 public String buildLogMessage(Exception e, HttpServletRequest req) {
 
     RequestProvider requestProvider = new RequestProvider
@@ -120,11 +101,8 @@ public String buildLogMessage(Exception e, HttpServletRequest req) {
     rollbar.error(e);
 
     return "MVC exception: " + e.getLocalizedMessage();
-}</td>
-  </tr>
-</table>
-
-
+}
+```
 You can also use Rollbar to track caught exceptions, warnings, and other items using the same rollbar object. Learn more about the full API in our [documentation](https://rollbar.com/docs/notifier/rollbar-java/). 
 
 ## Test with an example app
@@ -148,10 +126,8 @@ This form add a button which will call /spring-mvc/createException.
 
 
 When you click the "Throw an exception" button, it will trigger the throwException method. In this method, we have added a bug which attempts to call a method on a null object.
-
-<table>
-  <tr>
-    <td>@RequestMapping(value = "/createException", method = RequestMethod.POST)
+```java
+@RequestMapping(value = "/createException", method = RequestMethod.POST)
 public String throwException(ModelMap model) {
 
     System.out.println("Error : here....");
@@ -159,12 +135,8 @@ public String throwException(ModelMap model) {
     exception.toCharArray();
    	 
     return "error";
-}</td>
-  </tr>
-</table>
-
-
- 
+}
+```
 
 Since we wired up our MyMappingExceptionResolver to report the error to Rollbar, we should see the error show up on the Rollbar’s [item page](https://rollbar.com/demo/demo/items/).
 
