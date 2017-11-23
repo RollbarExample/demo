@@ -26,29 +26,29 @@ The example below shows you how to override the SimpleMappingExceptionResolver. 
 ```java
 public class MyMappingExceptionResolver extends SimpleMappingExceptionResolver {
 	
-	public MyMappingExceptionResolver() {
+    public MyMappingExceptionResolver() {
 
-		setWarnLogCategory(MyMappingExceptionResolver.class.getName());
-	}
+		    setWarnLogCategory(MyMappingExceptionResolver.class.getName());
+    }
 
-	@Override
-	public String buildLogMessage(Exception e, HttpServletRequest req) {
+	  @Override
+	  public String buildLogMessage(Exception e, HttpServletRequest req) {
                  
-		System.out.println("Exception : "+e.toString());
-	    return "MVC exception: " + e.getLocalizedMessage();
-	}
+		    System.out.println("Exception : "+e.toString());
+	  return "MVC exception: " + e.getLocalizedMessage();
+	  }
 	    
-	 @Override
-	protected ModelAndView doResolveException(HttpServletRequest req,HttpServletResponse resp, Object handler, Exception ex) {
+	  @Override
+    protected ModelAndView doResolveException(HttpServletRequest req,HttpServletResponse resp, Object handler, Exception ex) {
 	    
       ModelAndView mav = super.doResolveException(req, resp, handler, ex);     
 	    mav.addObject("url", req.getRequestURL());
 	    return mav;
     }
-  }
+}
 ```
 In order to make use of this class, you must configure it in your bean configuration file. We also map in a default error page called "error" and pass in the exception attribute, which will give our view access to the exception object for reporting.
-
+```xml
 <bean id="simpleMappingExceptionResolver" class="com.in28minutes.controller.MyMappingExceptionResolver">
     <property name="exceptionMappings">
    		 <props>
@@ -58,7 +58,7 @@ In order to make use of this class, you must configure it in your bean configura
    	<property name="defaultErrorView" value="error" />
    	<property name="exceptionAttribute" value="ex" />
 </bean>
-
+```
 ## Add Rollbar error monitoring
 
 Now that we have a simple exception handler wired up, we’re going to show you how to integrate [Rollbar’s Java Notifier SDK](https://rollbar.com/docs/notifier/rollbar-java/) in your code. 
@@ -77,13 +77,9 @@ Now that we have a simple exception handler wired up, we’re going to show you 
 ```
 
 For Gradle:
-
-<table>
-  <tr>
-    <td>compile('com.rollbar:rollbar-web:1.0.0-beta-3')</td>
-  </tr>
-</table>
-
+```java
+compile('com.rollbar:rollbar-web:1.0.0-beta-3')
+```
 
 3. Now we will add Rollbar tracking inside the MyMappingExceptionResolver that we created earlier. It should go in the buildLogMessage method. Add the access token that we got in step one. We are also passing in the request provider object so we have more context for debugging problems later.
 
