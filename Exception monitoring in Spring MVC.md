@@ -23,7 +23,7 @@ Spring Framework also provides a HandlerExceptionResolver interface that you can
 **Warning:** Be careful about mixing both approaches in the same application. Most applications use one approach, and using two may result in unexpected behavior.
 
 The example below shows you how to override the SimpleMappingExceptionResolver. It allows you to create a custom method to build a log message and to return a view to the user with a more friendly error page. If you want to run this example yourself, check out [Rollbar-Example-Java](https://github.com/RollbarExample/Rollbar-Java-Example) on GitHub.
-
+```java
   public class MyMappingExceptionResolver extends SimpleMappingExceptionResolver {
 	
       public MyMappingExceptionResolver() {
@@ -46,7 +46,7 @@ The example below shows you how to override the SimpleMappingExceptionResolver. 
 	    return mav;
     } 
 }
-
+```
 In order to make use of this class, you must configure it in your bean configuration file. We also map in a default error page called "error" and pass in the exception attribute, which will give our view access to the exception object for reporting.
 ```xml
 <bean id="simpleMappingExceptionResolver" 
@@ -71,8 +71,8 @@ Now that we have a simple exception handler wired up, we’re going to show you 
 <dependencies>
     <dependency>
         <groupId>com.rollbar</groupId>
-            <artifactId>rollbar-web</artifactId>
-            <version>1.0.0-beta-3</version>
+        <artifactId>rollbar-web</artifactId>
+        <version>1.0.0-beta-3</version>
     </dependency>
 </dependencies>
 ```
