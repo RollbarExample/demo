@@ -44,10 +44,10 @@ public class MyMappingExceptionResolver extends SimpleMappingExceptionResolver {
     }
 
 	@Override
-	protected ModelAndView doResolveException(HttpServletRequest req, HttpServletResponse resp, Object handler,
-			Exception ex) {
-		ModelAndView mav = super.doResolveException(req, resp, handler, ex);
-		mav.addObject("url", req.getRequestURL());
+	protected ModelAndView doResolveException(HttpServletRequest req, HttpServletResponse resp, Object handler,Exception ex) {
+        
+        ModelAndView mav = super.doResolveException(req, resp, handler, ex);
+        mav.addObject("url", req.getRequestURL());
 		return mav;
 	}
 
