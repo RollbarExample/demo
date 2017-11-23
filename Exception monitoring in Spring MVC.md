@@ -46,7 +46,7 @@ public class MyMappingExceptionResolver extends SimpleMappingExceptionResolver {
 	    mav.addObject("url", req.getRequestURL());
     
 	    return mav;
-            }
+    }
 }
 ```
 In order to make use of this class, you must configure it in your bean configuration file. We also map in a default error page called "error" and pass in the exception attribute, which will give our view access to the exception object for reporting.
